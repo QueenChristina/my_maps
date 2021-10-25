@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Stanford/CS194A/mymaps/my_maps/src/app/src/main/res/layout/activity_display_map.xml" value="0.20260416666666667" />
         <entry key="..\:/Stanford/CS194A/mymaps/my_maps/src/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Stanford/CS194A/mymaps/my_maps/src/app/src/main/res/layout/dialog_create_map.xml" value="0.5" />
+        <entry key="..\:/Stanford/CS194A/mymaps/my_maps/src/app/src/main/res/layout/dialog_create_place.xml" value="0.33" />
+        <entry key="..\:/Stanford/CS194A/mymaps/my_maps/src/app/src/main/res/menu/menu_create_app.xml" value="0.33" />
       </map>
     </option>
   </component>

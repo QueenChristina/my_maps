@@ -1,41 +1,100 @@
 package com.tinaq.mymaps
 
+import android.app.Activity
+import android.content.AbstractThreadedSyncAdapter
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tinaq.mymaps.models.Place
 import com.tinaq.mymaps.models.UserMap
 
+const val EXTRA_USER_MAP = "EXTRA_USER_MAP"
+const val EXTRA_MAP_TITLE = "EXTRA_USER_TITLE"
 private const val TAG = "MainActivity"
+private const val REQUEST_CODE = 1234
 class MainActivity : AppCompatActivity() {
     private lateinit var rvMaps: RecyclerView
+    private lateinit var fabCreateMap: FloatingActionButton
+    private lateinit var userMaps: MutableList<UserMap>
+    private lateinit var mapAdapter: MapsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         rvMaps = findViewById(R.id.rvMaps)
+        fabCreateMap = findViewById(R.id.fabCreateMap)
 
         // Sample data to view in MapsAdapter
-        val userMaps = generateSampleData()
+        userMaps = generateSampleData().toMutableList()
 
         // Set layout manager on recycler view
         rvMaps.layoutManager = LinearLayoutManager(this)
 
         // Set adapter on recycler view
-        rvMaps.adapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener {
+        mapAdapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener {
             override fun onItemClick(position: Int) {
                 Log.i(TAG, "onItemClick $position")
                 // When user taps on view in RV, navigate to new activity, with intents
                 val intent = Intent(this@MainActivity, DisplayMapActivity::class.java)
+                intent.putExtra(EXTRA_USER_MAP, userMaps[position])
                 startActivity(intent)
             }
         })
 
-        // 28:24 min TODO
+        rvMaps.adapter = mapAdapter
 
+        fabCreateMap.setOnClickListener() {
+            Log.i(TAG, "Tap on FAB")
+            showAlertDialog()
+        }
+
+    }
+
+    private fun showAlertDialog() {
+        val mapFormView = LayoutInflater.from(this).inflate(R.layout.dialog_create_map, null)
+        var dialog =
+            AlertDialog.Builder(this)
+                .setTitle("Map Title")
+                .setView(mapFormView)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", null)
+                .show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val title = mapFormView.findViewById<EditText>(R.id.setTitle).text.toString()
+            if (title.trim().isEmpty()) {
+                // Validate user input: check they filled title and description
+                Toast.makeText(this, "Map must have non-empty title", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // Navigate to create map activity
+            val intent = Intent(this@MainActivity, CreateMapActivity::class.java)
+            intent.putExtra(EXTRA_MAP_TITLE, title)
+            startActivityForResult(intent, REQUEST_CODE)
+            dialog.dismiss()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Get new map data from the data
+            val userMap = data?.getSerializableExtra(EXTRA_USER_MAP) as UserMap
+            Log.i(TAG, "onActivityResult with new map title ${userMap.title}")
+            userMaps.add(userMap)
+            mapAdapter.notifyItemInserted(userMaps.size - 1)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // Sample data from https://gist.github.com/rpandey1234/19d9be3f6436080763e2eaf4adbf0b16
