@@ -2,7 +2,7 @@
 
 ## *Christina Qin*
 
-**My Maps** displays a list of maps, each of which show user-defined markers with a title, description, and location. The user can also create a new map. 
+**My Maps** displays a list of maps, each of which show user-defined markers with a title, description, and location. The user can also create a new map. Great for saving memorable locations!
 
 Time spent: **6** hours spent in total
 
@@ -21,9 +21,9 @@ The following **extensions** are implemented:
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
+Here's a walkthrough of implemented My Maps app:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/QueenChristina/my_maps/blob/main/walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 <!-- 
 ## Notes
 Kept crashing -- turns out need to restart entire app and reinstall for it to work.-->
