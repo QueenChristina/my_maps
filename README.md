@@ -4,30 +4,29 @@
 
 **My Maps** displays a list of maps, each of which show user-defined markers with a title, description, and location. The user can also create a new map. 
 
-Time spent: **X** hours spent in total
+Time spent: **6** hours spent in total
 
 ## Functionality 
 
 The following **required** functionality is completed:
 
-* [ ] The list of map titles is displayed.
-* [ ] After tapping on a map title, the associated markers in the map are shown.
-* [ ] The user is able to create a new map.
+* [X] The list of map titles is displayed.
+* [X] After tapping on a map title, the associated markers in the map are shown.
+* [X] The user is able to create a new map.
 
 The following **extensions** are implemented:
 
-* [ ] When a map marker is created, the pin is animated.
-* [ ] List anything else that you did to improve the app functionality or design!
+<!-- * [ ] When a map marker is created, the pin is animated. -->
+* [X] Displays number of maps user has currently.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
 <img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
+<!-- 
 ## Notes
-
-Describe any challenges encountered while building the app.
+Kept crashing -- turns out need to restart entire app and reinstall for it to work.-->
 
 ## License
 

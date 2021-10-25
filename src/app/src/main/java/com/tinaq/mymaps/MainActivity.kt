@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,24 +32,28 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabCreateMap: FloatingActionButton
     private lateinit var userMaps: MutableList<UserMap>
     private lateinit var mapAdapter: MapsAdapter
+    private lateinit var tvNumMaps: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         rvMaps = findViewById(R.id.rvMaps)
         fabCreateMap = findViewById(R.id.fabCreateMap)
+        tvNumMaps = findViewById(R.id.tvNumMaps)
         //val userMapsFromFile = deserializeUserMaps(this)
 
         // Sample data to view in MapsAdapter for testing
         //userMaps = generateSampleData().toMutableList()
         userMaps = deserializeUserMaps(this).toMutableList()
         //userMaps.addAll(userMapsFromFile)
+        updateNumMaps()
 
         // Set layout manager on recycler view
         rvMaps.layoutManager = LinearLayoutManager(this)
 
+
         // Set adapter on recycler view
-        mapAdapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener {
+        mapAdapter = MapsAdapter(this, userMaps, object : MapsAdapter.OnClickListener {
             override fun onItemClick(position: Int) {
                 Log.i(TAG, "onItemClick $position")
                 // When user taps on view in RV, navigate to new activity, with intents
@@ -66,6 +71,10 @@ class MainActivity : AppCompatActivity() {
             showAlertDialog()
         }
 
+    }
+
+    private fun updateNumMaps() {
+        tvNumMaps.text = "You have ${userMaps.size} maps."
     }
 
     private fun showAlertDialog() {
@@ -101,6 +110,7 @@ class MainActivity : AppCompatActivity() {
             userMaps.add(userMap)
             mapAdapter.notifyItemInserted(userMaps.size - 1)
             serializeUserMaps(this, userMaps)
+            updateNumMaps()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -127,6 +137,7 @@ class MainActivity : AppCompatActivity() {
         return File(context.filesDir, FILENAME)
     }
 
+    // For testing
     // Sample data from https://gist.github.com/rpandey1234/19d9be3f6436080763e2eaf4adbf0b16
     private fun generateSampleData(): List<UserMap> {
         return listOf(

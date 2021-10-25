@@ -59,6 +59,8 @@ class DisplayMapActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.addMarker(MarkerOptions().position(latLng).title(place.title).snippet(place.description))
         }
 
+        Log.i(TAG, "Number of places (markers) is ${userMap.places.size}")
+
         // Add a marker in Sydney and move the camera
         // val sydney = LatLng(-34.0, 151.0)
         //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
